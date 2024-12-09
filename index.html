@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота 1</title>
+    <link rel="stylesheet" href="Grid/style.css">
+</head>
+<body>
+   <div class="main_container">
+    <!-- Menu section-->
+     <div class="Menu">
+            <h1 class="logo1">Tudors</h1>
+            <div class="PagesName"> 
+                <p>Menu</p>
+                <a class="link_" href="SecondPage.html">SecondPage</a>
+            </div>
+     </div>
+
+     <!-- Achievements section-->
+    <div class="Achievements">
+         <ol class="ListOfAchievements">
+            <li>Зміцнив бюджет Англії</li>
+            <li>Заснував суд над дворянами</li>
+            <li>Підтримав експедицію, що відкрила острів Ньюфаундленд біля Америки</li>
+            <li> Надав наказ відомому історику - Полідору Вергілію писати записи історії Англії</li>
+        </ol>
+     </div>
+
+     <!-- Portrait section-->
+     <div class="Portrait">
+        <div class="collapse-container">
+            <form id="collapseForm">
+                <input type="text" name="title" placeholder="Введіть заголовок" required />
+                <textarea name="content" placeholder="Введіть контент" required></textarea>
+                <button type="submit">Додати Collapse</button>
+            </form>
+        </div>
+        
+    </div>
+
+    <!-- Years_section-->
+    <div class="Years_section">
+      <b class="b">1485-1509</b>
+    </div>
+
+    <!--Claim section-->
+    <div class="Claim_section">
+        <b class="b">Henry VII</b>
+    </div>
+
+    <!-- Biography section-->
+    <div class="Biography_section">
+        <h2 class="logo2"> DYNASTY</h2>
+        <p class="Biography">Провів юнацькі роки в Бретані, у 1485 висадився в Британії, щоб очолити повстання проти Річарда ІІІ, що завершилося поразкою Річарда і його смертю біля Босворта. Одружившись з Єлизаветою Йоркською у 1486, об'єднав двори Йорків і Ланкастерів. У 1497 відбулося повстання йоркців, але Генріх відновив порядок після воєн Червоної і Білої троянди і отримав незалежність від парламенту, заклав основи абсолютизму. Його наступником став син Генріх VIII.</p>
+    </div>
+    </div>
+
+    <script>
+        function addCollapsibleElement(data) {
+            const container = document.createElement('div');
+            container.classList.add('collapsible-container');
+
+            // Додаємо заголовок
+            const title = document.createElement('div');
+            title.classList.add('collapse-title');
+            title.textContent = data.title;
+
+            // Додаємо контент
+            const content = document.createElement('div');
+            content.classList.add('collapse-content');
+            content.textContent = data.content;
+
+            // Додаємо заголовок та контент в контейнер
+            container.appendChild(title);
+            container.appendChild(content);
+
+            // Перевірка на існування старого контейнера і його видалення
+            const existingContainer = document.querySelector('.dynamic-container');
+            if (existingContainer) {
+                existingContainer.innerHTML = ''; // Очищаємо старий контейнер
+            }
+
+            // Додаємо новий контейнер на сторінку в блок .dynamic-container
+            document.querySelector('.dynamic-container').appendChild(container);
+        }
+
+        document.getElementById('collapseForm').addEventListener('submit', async (event) => {
+            event.preventDefault(); 
+
+            const formData = new FormData(event.target);
+            const data = {
+                title: formData.get('title'),
+                content: formData.get('content')
+            };
+
+            const response = await fetch('/saveData', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(data)
+            });
+
+            if (response.ok) {
+                alert('Дані збережено успішно!');
+                addCollapsibleElement(data); 
+                event.target.reset();
+            } else {
+                alert('Сталася помилка при збереженні даних.');
+            }
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Лабораторна робота 1</title>
+    
+    <link rel="stylesheet" href="Grid/style.css">
+</head>
+<body>
+   <div class="main_container">
+    <!-- Menu section-->
+     <div class="Menu">
+            <h1 class="logo1">Tudors</h1>
+            <div class="PagesName"> 
+                <p>Menu</p>
+                <a  class="link_" href="index.html">FirstPage</a>
+            </div>
+     </div>
+
+     <!-- Achievements section-->
+    <div class="Achievements">
+         <ol class="ListOfAchievements">
+            <li>Зміцнив бюджет Англії</li>
+            <li>Заснував суд над дворянами</li>
+            <li>Підтримав експедицію, що відкрила острів Ньюфаундленд біля Америки</li>
+            <li> Надав наказ відомому історику - Полідору Вергілію писати записи історії Англії</li>
+        </ol>
+     </div>
+
+     <!-- Portrait section-->
+     <div class="Portrait">
+        <div class="Portrait">
+            <div id="collapseContainer"></div>
+        </div>
+    </div>
+
+    <!-- Years_section-->
+    <div class="Years_section">
+      <b class="b">1485-1509</b>
+    </div>
+
+    <!--Claim section-->
+    <div class="Claim_section">
+        <b class="b">Henry VII</b>
+    </div>
+
+    <!-- Biography section-->
+    <div class="Biography_section">
+        <h2 class="logo2"> DYNASTY</h2>
+        <p class="Biography">Провів юнацькі роки в Бретані, у 1485 висадився в Британії, щоб очолити повстання проти Річарда ІІІ, що завершилося поразкою Річарда і його смертю біля Босворта. Одружившись з Єлизаветою Йоркською у 1486, об'єднав двори Йорків і Ланкастерів. У 1497 відбулося повстання йоркців, але Генріх відновив порядок після воєн Червоної і Білої троянди і отримав незалежність від парламенту, заклав основи абсолютизму. Його наступником став син Генріх VIII.</p>
+    </div>
+    </div>
+    <script>
+        document.addEventListener('DOMContentLoaded', async () => {
+           const response = await fetch('/getData');
+           const data = await response.json();
+           
+           const collapseContainer = document.getElementById('collapseContainer');
+           data.forEach((item, index) => {
+              const collapse = document.createElement('div');
+              collapse.classList.add('collapse-item');
+              collapse.innerHTML = `
+                  <button class="collapse-btn" onclick="toggleCollapse(${index})">${item.title}</button>
+                  <div class="collapse-content" id="collapseContent${index}">
+                      <p>${item.content}</p>
+                  </div>
+              `;
+              collapseContainer.appendChild(collapse);
+           });
+        });
+  
+        function toggleCollapse(index) {
+           const content = document.getElementById(`collapseContent${index}`);
+           content.style.display = content.style.display === 'none' ? 'block' : 'none';
+        }
+
+        
+     </script>
+</body>
+</html>
